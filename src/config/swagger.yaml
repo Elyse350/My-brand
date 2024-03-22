@@ -1,0 +1,455 @@
+openapi: 3.0.0
+info:
+  description: API documentation for My brand Backend APIs
+  version: "1.0.0"
+  title: My Brand API
+servers:
+  - url: https://mybrand-production.up.railway.app/
+    description: Production development server
+  - url: http://localhost:3000/
+    description: Local development server
+paths:
+  /api/blog/blogs:
+    get:
+      tags:
+        - Blogs
+      summary: Getting all the blogs
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Blog"
+  /api/blog/blogs/{id}:
+    get:
+      tags:
+        - Blogs
+      summary: Getting a single blogs
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Blog"
+    put:
+      summary: Update a blog
+      tags:
+        - Blogs
+      security:
+        - jwtAuth:
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the blog to update
+      requestBody:
+        description: Update an existing blog
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BlogCreateEdit"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Blog"
+    delete:
+      summary: Delete a blog
+      tags:
+        - Blogs
+      security:
+        - jwtAuth:
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /api/blog/createnew:
+    post:
+      summary: Create a new blog
+      tags:
+        - Blogs
+      security:
+        - jwtAuth:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BlogCreateEdit"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Blog"
+  /api/auth/login:
+    post:
+      tags:
+        - Users
+      summary: Logging in a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+  /api/auth/signup:
+    post:
+      tags:
+        - Users
+      summary: Creating a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+  /api/auth/logout:
+    post:
+      tags:
+        - Users
+      summary: Logging out a user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+  /api/auth/users:
+    get:
+      summary: Get a list of all users
+      tags:
+        - Users
+      security:
+        - jwtAuth:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+              items:
+                $ref: "#/components/schemas/User"
+  /api/auth/users/{userId}:
+    put:
+      summary: Update a users role
+      tags:
+        - Users
+      security:
+        - jwtAuth:
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+            format: objectId
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+    delete:
+      summary: Delete a user
+      tags:
+        - Users
+      security:
+        - jwtAuth:
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+  /api/usermessages:
+    get:
+      summary: Get a list of all messages
+      tags:
+        - Messages
+      security:
+        - jwtAuth:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+              items:
+                $ref: "#/components/schemas/Message"
+  /api/contactme:
+    post:
+      summary: Send a message
+      tags:
+        - Messages
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Message"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+              items:
+                $ref: "#/components/schemas/Message"
+  /api/usermessages/{id}:
+    delete:
+      summary: Deleting a message
+      tags:
+        - Messages
+      security:
+        - jwtAuth:
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+              items:
+                $ref: "#/components/schemas/Message"
+  /api/blogs/{blogId}/like:
+    post:
+      summary: Like a blog
+      tags:
+        - Comment and Like to a blog
+      security:
+        - jwtAuth:
+      parameters:
+        - in: path
+          name: blogId
+          required: true
+          schema:
+            type: string
+            format: objectId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+              items:
+                $ref: "#/components/schemas/Blog"
+  /api/blogs/{blogId}/comments:
+    get:
+      summary: Get all comments of a specific blog
+      tags:
+        - Comment and Like to a blog
+      parameters:
+        - in: path
+          name: blogId
+          required: true
+          schema:
+            type: string
+            format: objectId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                properties:
+                  name:
+                    type: string
+                  comment:
+                    type: string
+    post:
+      summary: Comment on a blog
+      tags:
+        - Comment and Like to a blog
+      parameters:
+        - in: path
+          name: blogId
+          required: true
+          schema:
+            type: string
+            format: objectId
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                comment:
+                  type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+              items:
+                $ref: "#/components/schemas/Comment"
+  /api/blogs/{blogId}/{commentId}:
+    delete:
+      summary: Deleting a comment
+      tags:
+        - Comment and Like to a blog
+      security:
+        - jwtAuth:
+      parameters:
+        - in: path
+          name: blogId
+          schema:
+            type: string
+          required: true
+          description: The ID of the blog containing the comment
+        - in: path
+          name: commentId
+          schema:
+            type: string
+          required: true
+          description: The ID of the comment to be deleted
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+              items:
+                $ref: "#/components/schemas/Blog"
+
+components:
+  schemas:
+    Blog:
+      type: object
+      properties:
+        _id:
+          type: string
+        title:
+          type: string
+        snippet:
+          type: string
+        imageUrl:
+          type: string
+        category:
+          type: string
+        author:
+          type: string
+        body:
+          type: string
+        createdAt:
+          type: string
+        comments:
+          type: array
+        likes:
+          type: array
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    BlogCreateEdit:
+      type: object
+      properties:
+        title:
+          type: string
+        snippet:
+          type: string
+        imageUrl:
+          type: string
+        category:
+          type: string
+        author:
+          type: string
+        body:
+          type: string
+    Message:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        message:
+          type: string
+    Comment:
+      type: object
+      properties:
+        name:
+          type: string
+        comment:
+          type: string
+        Blog:
+          type: string
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
