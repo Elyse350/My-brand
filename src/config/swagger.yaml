@@ -4,7 +4,7 @@ info:
   version: "1.0.0"
   title: My Brand API
 servers:
-  - url: https://mybrand-production.up.railway.app/
+  - url: https://my-brand-production-b23d.up.railway.app/
     description: Production development server
   - url: http://localhost:3000/
     description: Local development server
