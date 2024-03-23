@@ -8,7 +8,7 @@ const router = Router();
 //signing a user up
 router.post(
     "/signup",
-    schemaValidator("/signup"),
+  /*   schemaValidator("/signup"), */
     authController.signup_post,
     (req: any, res: any) => {
       return res.send("Sign up complete");
