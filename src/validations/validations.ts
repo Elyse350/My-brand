@@ -11,10 +11,8 @@ const authLogin = Joi.object().keys({
 
 const blogValidations = Joi.object().keys({
     title: Joi.string().required(),
-    snippet: Joi.string().required(),
     category: Joi.string().required(),
     imageUrl: Joi.string().required(),
-    author: Joi.string().required(),
     body: Joi.string().required()
 });
 
