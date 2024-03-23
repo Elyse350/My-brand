@@ -418,13 +418,9 @@ components:
       properties:
         title:
           type: string
-        snippet:
-          type: string
         imageUrl:
           type: string
         category:
-          type: string
-        author:
           type: string
         body:
           type: string
