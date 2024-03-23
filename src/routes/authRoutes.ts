@@ -19,7 +19,7 @@ router.post(
 //Logging a user in
 router.post(
     "/login",
-    schemaValidator("/login"),
+/*     schemaValidator("/login"), */
     authController.login_post,
     (req: any, res: any) => {
       return res.send("Logged in successfully");
