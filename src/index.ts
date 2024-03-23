@@ -20,7 +20,7 @@ export const app = express();
 const PORT = process.env.PORT || 3000
 
 const corsOptions ={
-  origin: '*', 
+  origin: 'https://helpful-bavarois-0bf8dc.netlify.app/', 
   credentials:true,            //access-control-allow-credentials:true
   optionSuccessStatus:200,
 }
