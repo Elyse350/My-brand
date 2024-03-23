@@ -5,19 +5,11 @@ const blogSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    snippet: {
-        type: String,
-        required: true
-    },
     category: {
         type: String,
         required: true
     },
     imageUrl: {
-        type: String,
-        required: true
-    },
-    author: {
         type: String,
         required: true
     },
